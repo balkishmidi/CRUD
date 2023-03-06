@@ -5,8 +5,10 @@
  */
 package gui;
 
+import entities.Client;
+import entities.Conducteur;
 import entities.Contrat;
-import entities.Message;
+import entities.Messages;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -41,6 +43,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.SwipeEvent;
 import javafx.scene.layout.AnchorPane;
 import javax.swing.JOptionPane;
+import services.ClientCRUD;
+import services.ConducteurCRUD;
 import services.ContratCRUD;
 import services.MessageCRUD;
 
@@ -65,18 +69,18 @@ public class MessageController implements Initializable {
     @FXML
     private Button btn_delete_msg;
     @FXML
-    private TableColumn<Message, Integer> id_messagetab;
+    private TableColumn<Messages, Integer> id_messagetab;
     @FXML
-    private TableColumn<Message, String> Expediteurtab;
+    private TableColumn<Messages, String> Expediteurtab;
     @FXML
-    private TableColumn<Message,String> Destinairetab;
+    private TableColumn<Messages,String> Destinairetab;
     @FXML
-    private TableColumn<Message, Date> Heuretab;
+    private TableColumn<Messages, Date> Heuretab;
     @FXML
-    private TableColumn<Message, String> Contenutab;
+    private TableColumn<Messages, String> Contenutab;
     @FXML
-    private TableView<Message> Tabmsg;
-    ObservableList<Message> list;
+    private TableView<Messages> Tabmsg;
+    ObservableList<Messages> list;
    
     private void clean(ActionEvent event) {
     tfexped.setText(null);
@@ -93,41 +97,48 @@ private void showAlert(Alert.AlertType alertType, String title, String message) 
 }
 
 @FXML
-private void sendMessage(ActionEvent event) {
-    String expediteur = tfexped.getText();
-    String destinataire = tfdest.getText();
-    String message = tfcontenu.getText();
+//private void sendMessage(ActionEvent event) {
+    // int id_client = Integer.parseInt(tfdest.getText());
+    //int id_conducteur = Integer.parseInt(tfexped.getText());
+   // String message = tfcontenu.getText();
 
     // Create new message and add to database
-    Message m = new Message();
-    m.setExpediteur(expediteur);
-    m.setDestinataire(destinataire);
-    m.setContenu(message);
+    //Message m = new Message();
+  //  m.setId_client(id_client);
+   // m.setId_conducteur(id_conducteur);
+    //m.setContenu(message);
 
-    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+   // Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
     // Set the date_message field of the Message object
-    m.setDate_message(timestamp);
+  //  m.setDate_message(timestamp);
+//if (tfexped.getText().isEmpty() || tfdest.getText().isEmpty() || tfcontenu.getText().isEmpty()) {
+   // showAlert(Alert.AlertType.ERROR, "Champ(s) vide(s)", "Veuillez remplir tous les champs.");
+   // return;
+//////}//
 
-    if (expediteur.isEmpty() || destinataire.isEmpty() || message.isEmpty()) {
-        showAlert(Alert.AlertType.ERROR, "Champ(s) vide(s)", "Veuillez remplir tous les champs.");
-        return;
-    }
+   // MessageCRUD pcd = new MessageCRUD();
+   // pcd.AddMessage(m);
+   // UpdateTabMessage();
 
-    MessageCRUD pcd = new MessageCRUD();
-    pcd.AddMessage(m);
-    UpdateTabMessage();
+    // Retrieve the Client and Conducteur objects associated with the message's foreign keys
+   // ClientCRUD ccrud = new ClientCRUD();
+   // Client c = ccrud.getClientById(id_client);
+
+    //ConducteurCRUD ccrudd = new ConducteurCRUD();
+    //Conducteur cd = ccrudd.getConducteurById(id_conducteur);
 
     // Append message to text area
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-    String messageText = String.format("%s -> %s : %s (%s)", expediteur, destinataire, message, m.getDate_message() != null ?
-            formatter.format(m.getDate_message().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()) :
-            formatter.format(LocalDateTime.now()));
-    tabmessagex.appendText(messageText + "\n");
+    //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+    //String messageText = String.format("%s -> %s : %s (%s)", c.getPrenom_client(), cd.getPrenom_conducteur(), message, m.getDate_message() != null ?
+          //  formatter.format(m.getDate_message().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()) :
+           // formatter.format(LocalDateTime.now()));
+    //tabmessagex.appendText(messageText + "\n");
 
     // Clear input fields
-    clean(event);
-}
+   // clean(event);
+//}
+
 
 
 
@@ -204,7 +215,7 @@ clear(event);
         return;
     }
     // Get the selected message from the TableView
-    Message message = Tabmsg.getSelectionModel().getSelectedItem();
+    Messages message = Tabmsg.getSelectionModel().getSelectedItem();
 
     // Display a confirmation dialog
     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

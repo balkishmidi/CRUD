@@ -17,6 +17,6 @@ public interface ContratInterface  <C> {
       void UpdateContrat(C c);
       void DeleteContrat(int id);
       public List<C> contratList();
-      public List <C>searchContrats(String search) ;
+      public List <C>searchContrats(C c) ;
 
 }

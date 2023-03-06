@@ -16,14 +16,15 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+
 /**
  *
  * @author BKHmidi
  */
 public class FXMain extends Application {
-    
     @Override
     public void start(Stage primaryStage) {
+
          try {
             Parent root=FXMLLoader.load(getClass().getResource("listeContrat.fxml"));
             Scene scene = new Scene(root);

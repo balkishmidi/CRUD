@@ -124,38 +124,7 @@ public class ContratCRUD  implements ContratInterface<Contrat> {
     
     
 
-    @Override
-    public List<Contrat> searchContrats(String search) {
-    List<Contrat> contrats = new ArrayList<>();
-    String sql = "SELECT * FROM contrat WHERE id_contrat LIKE ? OR id_conducteur LIKE ? OR id_admin LIKE ? OR statut LIKE ?";
-    try (Connection conn = DriverManager.getConnection(url, user, password);
-         PreparedStatement stmt = conn.prepareStatement(sql)) {
-        // Set the search parameter values in the statement
-        stmt.setString(1, "%" + search + "%");
-        stmt.setString(2, "%" + search + "%");
-        stmt.setString(3, "%" + search + "%");
-        stmt.setString(4, "%" + search + "%");
 
-        // Execute the query
-        ResultSet rs = stmt.executeQuery();
-
-        // Add the results to the list of contrats
-        while (rs.next()) {
-            Contrat c = new Contrat();
-            c.setId_contrat(rs.getInt("id_contrat"));
-            c.setId_conducteur(rs.getInt("id_conducteur"));
-            c.setId_admin(rs.getInt("id_admin"));
-            c.setDate_debut(rs.getDate("date_debut"));
-            c.setDate_fin(rs.getDate("date_fin"));
-            c.setPrix(rs.getInt("prix"));
-            c.setStatut(rs.getString("statut"));
-            contrats.add(c);
-        }
-    } catch (SQLException e) {
-        System.out.println("Error searching for contrats: " + e.getMessage());
-    }
-    return contrats;
-}
     
     
     
@@ -190,6 +159,90 @@ public class ContratCRUD  implements ContratInterface<Contrat> {
             System.out.println(e.getMessage());
         }
         return contrats;
+    }
+    
+    
+public Contrat findById(int id) {
+    Contrat c = null;
+    String sql = "SELECT * FROM contrat WHERE id_contrat = ?";
+    try (Connection conn = DriverManager.getConnection(url, user, password);
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setInt(1, id);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            c = new Contrat();
+            c.setId_contrat(rs.getInt("id_contrat"));
+            c.setId_conducteur(rs.getInt("id_conducteur"));
+            c.setId_admin(rs.getInt("id_admin"));
+            c.setDate_debut(rs.getDate("date_debut"));
+            c.setDate_fin(rs.getDate("date_fin"));
+            c.setPrix(rs.getInt("prix"));
+            c.setStatut(rs.getString("statut"));
+        }
+    } catch (SQLException e) {
+        System.out.println("Error finding contrat by id: " + e.getMessage());
+    }
+    return c;
+}
+
+    
+    
+ public String getQrCode(String qrCode){
+ 
+ String qr_code = "";
+ String sql = " SELECT qr_code FROM contrat WHERE id_contrat = ?";
+    try (Connection conn = DriverManager.getConnection(url, user, password);
+         PreparedStatement stmt = conn.prepareStatement(sql)) { 
+        stmt.setString(1,qrCode);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            qr_code = rs.getString("qr_code");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return qr_code;}
+ 
+ 
+ 
+ 
+ 
+    
+    
+    
+    
+
+    @Override
+    public List<Contrat> searchContrats(Contrat c) {
+ List<Contrat> contrats = new ArrayList<>();
+    String sql = "SELECT * FROM contrat WHERE id_contrat LIKE ? OR id_conducteur LIKE ? OR id_admin LIKE ? OR statut LIKE ?";
+    try (Connection conn = DriverManager.getConnection(url, user, password);
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+        // Set the search parameter values in the statement
+        stmt.setString(1, "%" + c.getId_contrat() + "%");
+        stmt.setString(2, "%" + c.getId_conducteur() + "%");
+        stmt.setString(3, "%" + c.getId_admin() + "%");
+        stmt.setString(4, "%" + c.getStatut() + "%");
+
+        // Execute the query
+        ResultSet rs = stmt.executeQuery();
+
+        // Add the results to the list of contrats
+        while (rs.next()) {
+            Contrat contrat = new Contrat();
+            contrat.setId_contrat(rs.getInt("id_contrat"));
+            contrat.setId_conducteur(rs.getInt("id_conducteur"));
+            contrat.setId_admin(rs.getInt("id_admin"));
+            contrat.setDate_debut(rs.getDate("date_debut"));
+            contrat.setDate_fin(rs.getDate("date_fin"));
+            contrat.setPrix(rs.getInt("prix"));
+            contrat.setStatut(rs.getString("statut"));
+            contrats.add(contrat);
+        }
+    } catch (SQLException e) {
+        System.out.println("Error searching for contrats: " + e.getMessage());
+    }
+    return contrats;
     }
     
 }

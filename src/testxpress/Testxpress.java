@@ -5,8 +5,9 @@
  */
 package testxpress;
 
+
 import entities.Contrat;
-import entities.Message;
+import entities.Messages;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -28,26 +29,34 @@ public class Testxpress {
 
         // Add a new Contrat
         Contrat c = new Contrat();
-        c.setId_conducteur(1);
+        c.setId_conducteur(4);
         c.setId_admin(1);
         c.setDate_debut(Date.valueOf(LocalDate.of(2023, 2, 15))); // set the start date to February 15, 2023
         c.setDate_fin(Date.valueOf(LocalDate.of(2023, 2, 15)));
         c.setPrix(1000);
-        c.setStatut("en cours");
+        //c.setStatut(en cours);
        ContratCRUD pcd = new ContratCRUD();
        pcd.AddContrat(c);
        // System.out.println(pcd.contratList());
    //pcd.DeleteContrat(9);
 //add a new message
-Message m = new Message();
-m.setExpediteur("Adem Kefi");
-m.setDestinataire("asma chafaai");
+Messages m = new Messages();
+ m.setId_conducteur(4);
+ m.setId_client(8);
 m.setContenu("je vous attent ici");
-
 MessageCRUD msg= new MessageCRUD();
+//msg.AddMessage(m);
+
+
 //System.out.println(msg.ReadMessage(2));
-//msg.DeleteMessage(2);
-System.out.println(msg.MessageList());
-    }
+//msg.DeleteMessage(44);
+//System.out.println(msg.MessageList());
+
+
+
+
+
     
-}
+
+    
+}}

@@ -6,17 +6,17 @@
 package interfaces;
 
 import java.util.List;
-
+import entities.Messages;
 /**
  *
  * @author BKHmidi
  */
-public interface MessageInterface <Message> {
-     void AddMessage(Message m);
-      void UpdateMessage(Message m);
-      public Message ReadMessage(int id_message);
+public interface MessageInterface <Messages> {
+     void AddMessage(Messages m);
+      void UpdateMessage(Messages m);
+      public Messages ReadMessage(int id_message);
        void DeleteMessage(int id_message);
-      public List<Message> MessageList();
+      public List<Messages> MessageList();
       
     
 }
